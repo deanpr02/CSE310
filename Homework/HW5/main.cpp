@@ -1,6 +1,6 @@
 #include <iostream>
-#include "utilities.cpp"
-#include "graph.cpp"
+#include "utilities.h"
+#include "graph.h"
 
 using namespace std;
 

@@ -1,54 +1,7 @@
-#include "datastructures.cpp"
-#include <string>
-#include <vector>
-#include <limits>
-
+#include "graph.h"
 
 using namespace std;
 float max_flt = numeric_limits<float>::max();
-
-//Graph class which will hold the data of our adjacency list and operate djikstras
-class Graph{
-    public:
-    Vertex** vertices;
-    Edge** adjList;
-    Edge** edgeList;
-    int vertCount;
-    int edgeCount;
-    int adjEdgeCount;
-    int currVertCount;
-    bool checkIfRan;
-    Vertex* srcVert;
-    Graph(){
-
-    }
-    Graph(int vertCount, int edgeCount){
-        this->vertCount = vertCount;
-        this->edgeCount = edgeCount;
-        this->currVertCount = 0;
-        this->vertices = new Vertex*[vertCount]();
-        this->adjList = new Edge*[vertCount]();
-        this->edgeList = new Edge*[edgeCount]();
-        this->checkIfRan = false;
-        this->adjEdgeCount = edgeCount;
-    }
-    void initializeLists(vector<string>); 
-    bool isVertex(int);
-    int findVertex(int);
-    void resetVertices();
-    void addDirectedEdges_F();
-    void addDirectedEdges_B();
-    void addUndirectedEdges_F();
-    void addUndirectedEdges_B();
-    void printAdjList();
-    void djikstras(Vertex*);
-    void djikstras_singledest(Vertex*, Vertex*);
-    void printAllShortestPaths();
-    void printSinglePath(Vertex*);
-    void printLength(Vertex*, Vertex*);
-    void testHeap();
-    void test();
-};
 
 //finds a vertex and returns the index
 int Graph::findVertex(int index){
@@ -117,11 +70,6 @@ void Graph::initializeLists(vector<string> edges){
                 break;
             }
         }
-        //Generates our list of vertices
-        //if(!isVertex(start)){
-            //this->vertices[this->currVertCount] = new Vertex(start,max_flt);
-            //this->currVertCount++;
-        //}
         //Adds an edge with the new index, start, end, and weight and adds it to an array of edges.
         this->edgeList[i] = new Edge(index, start, end, weight);
 
