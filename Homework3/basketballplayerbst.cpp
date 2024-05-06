@@ -105,6 +105,8 @@ void BinarySearchTree::PRINT_MIN()
     cout<< " " << mini->key<< " " << mini->playerName << " (" << mini->teamName<< ")"<<endl;
 }
 
+
+
 BinarySearchTree::node* BinarySearchTree::FIND_NODE(node* x, string name)
 {
 	if(x->playerName == name)
@@ -113,9 +115,15 @@ BinarySearchTree::node* BinarySearchTree::FIND_NODE(node* x, string name)
 	}
 	if(x != NULL)
 	{
-		if (x->left) FIND_NODE(x->left,name);
-		if (x->right) FIND_NODE(x->right,name);
+		node* leftSearch = NULL;
+		if (x->left) leftSearch = FIND_NODE(x->left,name);
+		if (leftSearch != NULL) return leftSearch;
+
+		node* rightSearch = NULL;
+		if (x->right) rightSearch = FIND_NODE(x->right,name);
+		if (rightSearch != NULL) return rightSearch;
 	}
+	return NULL;
 }
 
 BinarySearchTree::node* BinarySearchTree::FIND_SUCCESSOR(string name)
@@ -141,6 +149,9 @@ BinarySearchTree::node* BinarySearchTree::FIND_SUCCESSOR(string name)
 int BinarySearchTree::TRIPLE_DOUBLE(string name)
 {
     node* x = FIND_NODE(root,name);
+	if(x == NULL){
+		return 0;
+	}
     if(x->key >= 10)
     {
         return 1;
@@ -296,10 +307,9 @@ int main(){
         cout<< " List Triple Doubles "<<endl;
         cout<<" -------------------"<<endl;
         cout<<"Players w/ Triple Doubles: "<<endl;
-        for(i = 0; i <= count; i++)
+        for(int i = 0; i < count; ++i)
         {
-            cout<<names[i];
-            if(pointsBST.TRIPLE_DOUBLE(names[i]) && assistsBST.TRIPLE_DOUBLE(names[i]) && reboundsBST.TRIPLE_DOUBLE(names[i]))
+        	if(pointsBST.TRIPLE_DOUBLE(names[i]) && assistsBST.TRIPLE_DOUBLE(names[i]) && reboundsBST.TRIPLE_DOUBLE(names[i]))
             {
                 cout<<names[i]<<endl;
             }
@@ -310,10 +320,13 @@ int main(){
             cout<<" -------------------"<<endl;
             cout<<" Points Per Game"<<endl;
             pointsBST.REVERSE_TREE_WALK(pointsBST.root);
+			cout<<" -------------------"<<endl;
             cout<<" Assists Per Game"<<endl;;
             assistsBST.REVERSE_TREE_WALK(assistsBST.root);
+			cout<<" -------------------"<<endl;
             cout<<" Rebounds Per Game"<<endl;;
             reboundsBST.REVERSE_TREE_WALK(reboundsBST.root);
+			cout<<" -------------------"<<endl;
             break;
 		default:
 			cout << "Invalid choice";
@@ -321,9 +334,3 @@ int main(){
 	}
 
 }
-//For the triple doubles, there are two ways I think of doing this, when we add a player we need to add their points, rebounds, and assists
-//Therefore, we know there that for every player in points/rebounds/assists, they will exist in the other trees too. Therefore,
-//We can do a DFS search and then using that player name we can search them in the other lists to see if they have rebounds/assists
-//greater than 10, if they do then we can add them to the triple double list.
-//So for every player in points BST we will check if they have more than 10 points if they dont we move on, if they do then we check
-//For their rebounds and assists.
